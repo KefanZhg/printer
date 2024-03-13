@@ -92,16 +92,29 @@ class Adxl345:
     def start_reading(self, interval=0.1):
         """Start reading data from the FIFO."""
         def read_loop():
+            self.Period = False
             while not self.stop_thread:
                 rst = self.read_fifo()
                 if rst is not None:
                     for i, (x, y, z) in enumerate(rst):
                         self.count += 1
-                        print(f"C={self.count}, X={x}, Y={y}, Z={z}")
-                        # self.x_buff.append(x)
-                        # self.y_buff.append(y)
-                        # self.z_buff.append(z)
-                        # self.c_buff.append(self.count)
+                        # print(f"C={self.count}, X={x}, Y={y}, Z={z}")
+                        self.x_buff.append(x)
+                        self.y_buff.append(y)
+                        self.z_buff.append(z)
+                        self.c_buff.append(self.count)
+
+                if self.Period: # Record data
+                    # Get time in yyyy-mm-dd-hh-mm-ss format
+                    t = time.localtime()
+                    t_str = f"{t.tm_year}-{t.tm_mon}-{t.tm_mday}-{t.tm_hour}-{t.tm_min}-{t.tm_sec}"
+                    with open(f"results/adxl345_data_{t_str}.txt", "w") as f:
+                        for i,c in enumerate(self.c_buff):
+                            f.write(f"{c},{self.x_buff[i]},{self.y_buff[i]},{self.z_buff[i]}\n")
+                    self.Period = False
+
+                    # Log
+                    print(f"Data recorded at {t_str}.")
                         
                 time.sleep(interval)
 
@@ -130,13 +143,15 @@ if __name__ == '__main__':
         # print("Wait for 5 seconds.")
         # time.sleep(5)  # Keep reading for 5 seconds
         while True:
-            time.sleep(1)
+            for i in range(60):
+                time.sleep(1)
+            adxl345.Period = True
     except:
         pass
     finally:
         adxl345.stop_reading()
-        for i,c in enumerate(adxl345.c_buff):
-            print(f"C={c}, X={adxl345.x_buff[i]}, Y={adxl345.y_buff[i]}, Z={adxl345.z_buff[i]}")
+        # for i,c in enumerate(adxl345.c_buff):
+        #     print(f"C={c}, X={adxl345.x_buff[i]}, Y={adxl345.y_buff[i]}, Z={adxl345.z_buff[i]}")
         adxl345.close()
 
 # TODO: Store data for matlab processing
