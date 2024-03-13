@@ -115,6 +115,10 @@ class Adxl345:
 
                     # Log
                     print(f"Data recorded at {t_str}.")
+
+                    # Clean data
+                    self.x_buff = []; self.y_buff = []; self.z_buff = []
+                    self.c_buff = []
                         
                 time.sleep(interval)
 
@@ -135,6 +139,8 @@ class Adxl345:
         self.spi.close()
 
 if __name__ == '__main__':
+
+    print("Program started.")
     
     adxl345 = Adxl345()
     try:
@@ -153,5 +159,3 @@ if __name__ == '__main__':
         # for i,c in enumerate(adxl345.c_buff):
         #     print(f"C={c}, X={adxl345.x_buff[i]}, Y={adxl345.y_buff[i]}, Z={adxl345.z_buff[i]}")
         adxl345.close()
-
-# TODO: Store data for matlab processing
