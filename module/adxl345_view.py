@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 # file name
-file_name = "adxl345_data_2024-3-12-23-45-42"
+file_name = "adxl345_data_2024-3-13-18-40-13"
 txt_file_name = file_name + ".txt"
 png_file_name = file_name + ".png"
 dir = "/home/pi/Repos/printer/data"
