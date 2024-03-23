@@ -1,19 +1,17 @@
-filename = 'data/adxl345_data_2024-3-13-18-13-12.txt';
+filename = 'results/ring_tower_acc1_gyroid/speed500/adxl345_data_2024-3-21-16-17-1.txt';
 data = readmatrix(filename);
-filename = 'data/adxl345_data_2024-3-13-18-40-13.txt';
-benchmark = readmatrix(filename);
-avg = mean(benchmark(:,2:end));
 
 index = data(:,1);
 raw_acc = data(:, 2:end);
 % raw_acc = raw_acc - avg;
-ti = 5;
+ti = 3;
 
 g = 9.81;
 acc_m_s2 = raw_acc / 256 * g;
 
 fs = 400;
 t = index / fs;
+t = t - t(1);
 fc = 50;
 
 % Plot
@@ -54,7 +52,10 @@ for i = 1:3
     ylabel('Power/Frequency (dB/Hz)')
     grid on
     xlim([0, 30])
+    ylim([-40,3])
 end
+
+sgtitle("Speed = 500%, Raw")
 
 
 % Low pass filter
@@ -99,4 +100,7 @@ for i = 1:3
     ylabel('Power/Frequency (dB/Hz)')
     grid on
     xlim([0, 30])
+    ylim([-40,3])
 end
+
+sgtitle("Speed = 500%, Low-passed")
