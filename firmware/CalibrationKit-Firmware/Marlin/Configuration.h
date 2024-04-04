@@ -12,11 +12,11 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 72, 72., 400, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 500 }
 
-#define COREXY
+// #define COREXY
 
-#define INVERT_X_SINE_WAVE
+// #define INVERT_X_SINE_WAVE
 // #define INVERT_Y_SINE_WAVE
 
 
