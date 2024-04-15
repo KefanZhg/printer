@@ -167,3 +167,4 @@ results/
 *.asv
 
 *.zip
+/firmware/FRF
